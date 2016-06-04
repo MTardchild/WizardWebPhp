@@ -39,7 +39,7 @@ CREATE TABLE trick (
 	PRIMARY KEY (trk_trickId)
 );
 
-CREATE TABLE Round (
+CREATE TABLE round (
 	rnd_roundId int NOT NULL,
 	rnd_predictionPlayer1 int NOT NULL,
 	rnd_predictionPlayer2 int NOT NULL,
