@@ -1,45 +1,47 @@
 <div class="jumbotron text-center">
 	<div ng-hide="isPlayerCountEntered">
-        <h2>Player Names</h2>
+        <h2>Player Count</h2>
         <div class="form-group">
-            <label><input type="number" class="form-control" placeholder="Player Count" ng-model="playerCount"></label>
+            <label><input type="number" min="2" max="6" class="form-control" placeholder="Player Count" ng-model="playerCount"></label>
 
             <p>
                 <button type="submit" class="btn btn-primary" ng-click="onPlayerCountEntered()">Next</button>
             </p>
         </div>
     </div>
-    <div ng-hide="arePlayerNamesEntered">
+    <div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == true">
         <h2>Player Names</h2>
 		<div class="form-group">
-            <label><input type="text" class="form-control" placeholder="Player One Name" ng-model="player1Name"></label><br>
-            <label><input type="text" class="form-control" placeholder="Player Two Name" ng-model="player2Name"></label><br>
-            <label ng-hide="playerCount < 3"><input type="text" class="form-control" placeholder="Player Three Name" ng-model="player3Name"></label><br>
-            <label ng-hide="playerCount < 4"><input type="text" class="form-control" placeholder="Player Four Name" ng-model="player4Name"></label><br>
-            <label ng-hide="playerCount < 5"><input type="text" class="form-control" placeholder="Player Five Name" ng-model="player5Name"></label><br>
-            <label ng-hide="playerCount < 6"><input type="text" class="form-control" placeholder="Player Six Name" ng-model="player6Name"></label>
+            <label><input type="text" class="form-control" placeholder="Player One Name" ng-model="playerNames[0]"></label><br>
+            <label><input type="text" class="form-control" placeholder="Player Two Name" ng-model="playerNames[1]"></label><br>
+            <label ng-hide="playerCount < 3"><input type="text" class="form-control" placeholder="Player Three Name" ng-model="playerNames[2]"></label><br>
+            <label ng-hide="playerCount < 4"><input type="text" class="form-control" placeholder="Player Four Name" ng-model="playerNames[3]"></label><br>
+            <label ng-hide="playerCount < 5"><input type="text" class="form-control" placeholder="Player Five Name" ng-model="playerNames[4]"></label><br>
+            <label ng-hide="playerCount < 6"><input type="text" class="form-control" placeholder="Player Six Name" ng-model="playerNames[5]"></label>
 
             <p>
                 <button type="submit" class="btn btn-primary" ng-click="onPlayerNamesEntered()">Next</button>
             </p>
         </div>
     </div>
-	<div ng-hide="isCardShufflerDecided">
+	<div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == false || isCardShufflerDecided == true">
 		<h2>Card Shuffler Decider</h2>
 		<div class="form-group">
-            <label>{{ player1Name }}<input type="text" class="form-control" placeholder="Card Value Player One" ng-model="player1Name"></label><br>
-            <label>{{ player2Name }}<input type="text" class="form-control" placeholder="Card Value Player Two" ng-model="player2Name"></label><br>
-            <label ng-hide="playerCount < 3">{{ player3Name }}<input type="text" class="form-control" placeholder="Card Value Player Three" ng-model="player3Name"></label><br>
-            <label ng-hide="playerCount < 4">{{ player4Name }}<input type="text" class="form-control" placeholder="Card Value Player Four" ng-model="player4Name"></label><br>
-            <label ng-hide="playerCount < 5">{{ player5Name }}<input type="text" class="form-control" placeholder="Card Value Player Five" ng-model="player5Name"></label><br>
-            <label ng-hide="playerCount < 6">{{ player6Name }}<input type="text" class="form-control" placeholder="Card Value Player Six" ng-model="player6Name"></label>
+            <label>{{ playerNames[0] }}<input type="number" class="form-control" placeholder="Card Value Player One" ng-model="cardGiverDecider[0]"></label><br>
+            <label>{{ playerNames[1] }}<input type="number" class="form-control" placeholder="Card Value Player Two" ng-model="cardGiverDecider[1]"></label><br>
+            <label ng-hide="playerCount < 3">{{ playerNames[2] }}<input type="number" class="form-control" placeholder="Card Value Player Three" ng-model="cardGiverDecider[2]"></label><br>
+            <label ng-hide="playerCount < 4">{{ playerNames[3] }}<input type="number" class="form-control" placeholder="Card Value Player Four" ng-model="cardGiverDecider[3]"></label><br>
+            <label ng-hide="playerCount < 5">{{ playerNames[4] }}<input type="number" class="form-control" placeholder="Card Value Player Five" ng-model="cardGiverDecider[4]"></label><br>
+            <label ng-hide="playerCount < 6">{{ playerNames[5] }}<input type="number" class="form-control" placeholder="Card Value Player Six" ng-model="cardGiverDecider[5]"></label>
 
             <p>
-                <button type="submit" class="btn btn-primary" ng-click="onPlayerNamesEntered()">Next</button>
+                <button type="submit" class="btn btn-primary" ng-click="onCardShufflerDecided()">Next</button>
             </p>
         </div>
 	</div>
-	<div>
-		<h2>Wizard Round {{ roundCount }}</h2>
+	<div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == false || isCardShufflerDecided == false">
+		<h2>Wizard Round {{ roundCount + 1 }}</h2>
+		<h3>Card Giver: {{ playerNames[cardGiverIndex] }}</h3>
+		<h3>First Prediction: {{ playerNames[cardGiverIndex + 1] }}</h3>
 	</div>
 </div>

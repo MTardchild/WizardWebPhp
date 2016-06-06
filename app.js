@@ -25,26 +25,54 @@ wizardApp.config(function($routeProvider) {
 
 wizardApp.controller('setupWizardController', function($scope) {
 	$scope.isPlayerCountEntered = false;
-	$scope.arePlayerNamesEntered = true;
-	$scope.isCardShufflerDecided = true;
+	$scope.arePlayerNamesEntered = false;
+	$scope.isCardShufflerDecided = false;
 
     $scope.playerCount;
-	$scope.roundCount = 1;
+	$scope.roundCount = 0;
+	$scope.maximumRoundCount;
+	$scope.cardGiverIndex;
 
-	$scope.player1Name = "";
-    $scope.player2Name = "";
-    $scope.player3Name = "";
-    $scope.player4Name = "";
-    $scope.player5Name = "";
-    $scope.player6Name = "";
+	$scope.playerNames = [];
+	$scope.cardGiverDecider = [];
+	$scope.tricks = [];
+	$scope.predictions = [];
+
+	var wizardCardCount = 60;
 
     $scope.onPlayerNamesEntered = function() {
 		$scope.arePlayerNamesEntered = true;
-		$scope.isCardShufflerDecided = false;
     }
 
 	$scope.onPlayerCountEntered = function() {
 		$scope.isPlayerCountEntered = true;
-		$scope.arePlayerNamesEntered = false;
+		$scope.maximumRoundCount = wizardCardCount / $scope.playerCount;
+	}
+
+	$scope.onCardShufflerDecided = function() {
+		$scope.isCardShufflerDecided = true;
+		$scope.cardGiverIndex = decideCardGiver();
+	}
+
+	$scope.onPredictionsMade = function() {
+
+	}
+
+	$scope.onRoundEnd = function() {
+		++$scope.roundCount;
+		updateUserInterface();
+	}
+
+	function decideCardGiver() {
+		return getIndexOfMaximum($scope.cardGiverDecider);
+	}
+
+	function getIndexOfMaximum(array) {
+		var maximumValue = Math.max(...array);
+		return array.indexOf(maximumValue);
+	}
+
+	function updateUserInterface() {
+
 	}
 });
