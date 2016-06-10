@@ -1,6 +1,7 @@
 var wizardApp = angular.module('wizardApp', []);
 
 var wizardApp = angular.module('wizardApp', ['ngRoute']);
+
 wizardApp.config(function($routeProvider) {
 	$routeProvider
 		.when('/', {
@@ -23,15 +24,34 @@ wizardApp.config(function($routeProvider) {
 		});
 });
 
+wizardApp.directive("navigationBar", function () {
+    return {
+        restrict: "A",
+        templateUrl: "components/navigation.html",
+        replace: true
+    };
+});
+
+wizardApp.directive("roundView", function () {
+    return {
+        restrict: "E",
+        templateUrl: "components/round-view.html",
+        replace: true
+    };
+});
+
 wizardApp.controller('setupWizardController', function($scope) {
 	$scope.isPlayerCountEntered = false;
 	$scope.arePlayerNamesEntered = false;
 	$scope.isCardShufflerDecided = false;
+	$scope.arePredictionsDone = false;
 
     $scope.playerCount;
 	$scope.roundCount = 0;
 	$scope.maximumRoundCount;
 	$scope.cardGiverIndex;
+	$scope.firstPredictorIndex;
+	$scope.currentPlayer;
 
 	$scope.playerNames = [];
 	$scope.cardGiverDecider = [];
@@ -39,9 +59,14 @@ wizardApp.controller('setupWizardController', function($scope) {
 	$scope.predictions = [];
 
 	var wizardCardCount = 60;
+	var predictionCount = 0;
+	var trickCount = 0;
 
     $scope.onPlayerNamesEntered = function() {
 		$scope.arePlayerNamesEntered = true;
+		$scope.cardGiverIndex = decideCardGiver();
+		$scope.firstPredictorIndex = decideFirstPredictor();
+		onCardGiverDecided();
     }
 
 	$scope.onPlayerCountEntered = function() {
@@ -49,22 +74,63 @@ wizardApp.controller('setupWizardController', function($scope) {
 		$scope.maximumRoundCount = wizardCardCount / $scope.playerCount;
 	}
 
-	$scope.onCardShufflerDecided = function() {
-		$scope.isCardShufflerDecided = true;
-		$scope.cardGiverIndex = decideCardGiver();
+	$scope.onPredictionMade = function() {
+		++predictionCount;
+		$scope.currentPlayer = getNextPlayerIdentifier();
+
+		if (predictionCount == $scope.playerCount) {
+			onAllPredictionsMade();
+		}
 	}
 
-	$scope.onPredictionsMade = function() {
+	$scope.onTrickMade = function() {
+		++trickCount;
+		$scope.currentPlayer = getNextPlayerIdentifier();
 
+		if (trickCount == $scope.playerCount) {
+			onRoundEnd();
+		}
 	}
 
-	$scope.onRoundEnd = function() {
+	function onRoundEnd() {
+		$scope.arePredictionsDone = false;
+		predictionCount = 0;
+		trickCount = 0;
 		++$scope.roundCount;
-		updateUserInterface();
+	}
+
+	function onAllPredictionsMade() {
+		$scope.arePredictionsDone = true;
+
+	}
+
+	function getNextPlayerIdentifier() {
+		var nextPlayerIdentifier = $scope.currentPlayer + 1;
+
+		if ($scope.currentPlayer == $scope.playerCount - 1) {
+			nextPlayerIdentifier = 0;
+		}
+
+		return nextPlayerIdentifier;
+	}
+
+	function onCardGiverDecided() {
+		$scope.isCardShufflerDecided = true;
+		startGame();
+	}
+
+	function decideFirstPredictor() {
+		var firstPredictorIndex = $scope.cardGiverIndex + 1;
+
+		if ($scope.cardGiverIndex == $scope.playerCount - 1) {
+			firstPredictorIndex = 0;
+		}
+
+		return firstPredictorIndex;
 	}
 
 	function decideCardGiver() {
-		return getIndexOfMaximum($scope.cardGiverDecider);
+		return Math.floor(Math.random() * $scope.playerCount);
 	}
 
 	function getIndexOfMaximum(array) {
@@ -72,7 +138,7 @@ wizardApp.controller('setupWizardController', function($scope) {
 		return array.indexOf(maximumValue);
 	}
 
-	function updateUserInterface() {
-
+	function startGame() {
+		$scope.currentPlayer = $scope.firstPredictorIndex;
 	}
 });
