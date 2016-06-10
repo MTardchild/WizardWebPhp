@@ -76,7 +76,7 @@ wizardApp.controller('setupWizardController', function($scope) {
 
 	$scope.onPredictionMade = function() {
 		++predictionCount;
-		$scope.currentPlayer = getNextPlayerIdentifier();
+		$scope.currentPlayer = getNextPlayerIdentifier($scope.currentPlayer);
 
 		if (predictionCount == $scope.playerCount) {
 			onAllPredictionsMade();
@@ -85,7 +85,7 @@ wizardApp.controller('setupWizardController', function($scope) {
 
 	$scope.onTrickMade = function() {
 		++trickCount;
-		$scope.currentPlayer = getNextPlayerIdentifier();
+		$scope.currentPlayer = getNextPlayerIdentifier($scope.currentPlayer);
 
 		if (trickCount == $scope.playerCount) {
 			onRoundEnd();
@@ -93,21 +93,23 @@ wizardApp.controller('setupWizardController', function($scope) {
 	}
 
 	function onRoundEnd() {
-		$scope.arePredictionsDone = false;
+		$scope.firstPredictorIndex = getNextPlayerIdentifier($scope.firstPredictorIndex);
+		$scope.cardGiverIndex = getNextPlayerIdentifier($scope.cardGiverIndex);
+		$scope.currentPlayer = $scope.firstPredictorIndex;
 		predictionCount = 0;
 		trickCount = 0;
 		++$scope.roundCount;
+		$scope.arePredictionsDone = false;
 	}
 
 	function onAllPredictionsMade() {
 		$scope.arePredictionsDone = true;
-
 	}
 
-	function getNextPlayerIdentifier() {
-		var nextPlayerIdentifier = $scope.currentPlayer + 1;
+	function getNextPlayerIdentifier(currentIdentifier) {
+		var nextPlayerIdentifier = currentIdentifier + 1;
 
-		if ($scope.currentPlayer == $scope.playerCount - 1) {
+		if (currentIdentifier == $scope.playerCount - 1) {
 			nextPlayerIdentifier = 0;
 		}
 
