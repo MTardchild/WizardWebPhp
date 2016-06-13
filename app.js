@@ -34,9 +34,15 @@ wizardApp.directive("navigationBar", function () {
 
 wizardApp.directive("roundView", function () {
     return {
-        restrict: "E",
+        restrict: "A",
         templateUrl: "components/round-view.html",
-        replace: true
+    };
+});
+
+wizardApp.directive("gameFinished", function () {
+    return {
+        restrict: "A",
+        templateUrl: "components/game-finished.html",
     };
 });
 
@@ -45,9 +51,10 @@ wizardApp.controller('setupWizardController', function($scope) {
 	$scope.arePlayerNamesEntered = false;
 	$scope.isCardShufflerDecided = false;
 	$scope.arePredictionsDone = false;
+	$scope.isGameFinished = false;
 
     $scope.playerCount;
-	$scope.roundCount = 0;
+	$scope.roundCounter = 0;
 	$scope.maximumRoundCount;
 	$scope.cardGiverIndex;
 	$scope.firstPredictorIndex;
@@ -57,6 +64,7 @@ wizardApp.controller('setupWizardController', function($scope) {
 	$scope.cardGiverDecider = [];
 	$scope.tricks = [];
 	$scope.predictions = [];
+    $scope.scores = [];
 
 	var wizardCardCount = 60;
 	var predictionCount = 0;
@@ -92,14 +100,44 @@ wizardApp.controller('setupWizardController', function($scope) {
 		}
 	}
 
+    function calculateScore() {
+
+
+        for (var indexPlayer = 0; indexPlayer < $scope.playerCount; ++indexPlayer) {
+            $scope.scores[indexPlayer] = 0;
+            
+            for (var indexRound = 0; indexRound < $scope.roundCounter; ++indexRound) {
+                $scope.scores[indexPlayer] += calculateRoundScore(indexPlayer, indexRound);
+            }
+        }
+    }
+
+    function calculateRoundScore(indexPlayer, indexRound) {
+        var score;
+        var prediction = $scope.predictions[indexPlayer][indexRound];
+        var trickCount = $scope.tricks[indexPlayer][indexRound];
+
+        if (trickCount == prediction) {
+            score = trickCount + 2;
+        } else {
+            score = - Math.abs(trickCount - prediction);
+        }
+
+        return score;
+    }
+
 	function onRoundEnd() {
 		$scope.firstPredictorIndex = getNextPlayerIdentifier($scope.firstPredictorIndex);
 		$scope.cardGiverIndex = getNextPlayerIdentifier($scope.cardGiverIndex);
 		$scope.currentPlayer = $scope.firstPredictorIndex;
 		predictionCount = 0;
 		trickCount = 0;
-		++$scope.roundCount;
+		++$scope.roundCounter;
 		$scope.arePredictionsDone = false;
+
+		if ($scope.roundCounter >= $scope.maximumRoundCount) {
+			$scope.isGameFinished = true;
+		}
 	}
 
 	function onAllPredictionsMade() {

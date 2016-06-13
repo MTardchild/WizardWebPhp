@@ -9,8 +9,6 @@
                 <button type="submit" class="btn btn-primary" ng-click="onPlayerCountEntered()">Next</button>
             </p>
         </div>
-
-
     </div>
     <div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == true">
         <h2>Player Names</h2>
@@ -28,7 +26,16 @@
             </p>
         </div>
     </div>
-	<div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == false || isCardShufflerDecided == false">
-		<round-view />
+	<div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == false || isCardShufflerDecided == false || isGameFinished == true">
+		<div round-view></div>
+	</div>
+	<div ng-show="isGameFinished == true">
+		<div game-finished></div>
+	</div>
+
+	<div class="form-group">
+		<p>
+			<button type="submit" class="btn btn-primary" ng-click="roundCounter = maximumRoundCount - 1">DEBUG TO END</button>
+		</p>
 	</div>
 </div>

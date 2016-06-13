@@ -1,9 +1,9 @@
-<div>Round {{ roundCount + 1 }}
+<div>Round {{ roundCounter + 1 }}
     <h2>
     <div ng-hide="arePredictionsDone">
         <h4>Card Dealer: {{ playerNames[cardGiverIndex] }}</h4>
         <h3>Predictions:</h3>
-        <label><h4>{{ playerNames[currentPlayer] }}</h4><input type="number" class="form-control" placeholder="Card Value" ng-model="predictions[roundCount][currentPlayer]"></label>
+        <label><h4>{{ playerNames[currentPlayer] }}</h4><input type="number" class="form-control" placeholder="Card Value" ng-model="predictions[roundCounter][currentPlayer]"></label>
 
         <p>
             <button type="submit" class="btn btn-primary" ng-click="onPredictionMade()">Next</button>
@@ -11,7 +11,7 @@
     </div>
     <div ng-hide="!arePredictionsDone">
         <h3>Tricks:</h3>
-        <label><h4>{{ playerNames[currentPlayer] }}</h4><input type="number" class="form-control" placeholder="Card Value Player One" ng-model="tricks[roundCount][currentPlayer]"></label><br>
+        <label><h4>{{ playerNames[currentPlayer] }}</h4><input type="number" class="form-control" placeholder="Card Value Player One" ng-model="tricks[roundCounter][currentPlayer]"></label><br>
 
         <p>
             <button type="submit" class="btn btn-primary" ng-click="onTrickMade()">Next</button>
