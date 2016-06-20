@@ -53,67 +53,66 @@ wizardApp.controller('setupWizardController', function($scope) {
 	$scope.arePredictionsDone = false;
 	$scope.isGameFinished = false;
 
-    $scope.playerCount;
+    $scope.playerCount = 0;
 	$scope.roundCounter = 0;
-	$scope.maximumRoundCount;
-	$scope.cardGiverIndex;
-	$scope.firstPredictorIndex;
-	$scope.currentPlayer;
+	$scope.maximumRoundCount = 0;
+	$scope.cardGiverIndex = 0;
+	$scope.firstPredictorIndex = 0;
+	$scope.currentPlayer = 0;
 
-	$scope.playerNames = [];
-	$scope.cardGiverDecider = [];
-	$scope.tricks = [];
-	$scope.predictions = [];
-    $scope.scores = [];
+	$scope.playerNames = new Array;
+	$scope.cardGiverDecider = new Array;
+	$scope.tricks = new Array;
+	$scope.predictions = new Array;
+    $scope.scores = new Array;
 
 	var wizardCardCount = 60;
-	var predictionCount = 0;
-	var trickCount = 0;
+	var roundPredictionsMade = 0;
+	var roundTricksMade = 0;
 
     $scope.onPlayerNamesEntered = function() {
 		$scope.arePlayerNamesEntered = true;
 		$scope.cardGiverIndex = decideCardGiver();
 		$scope.firstPredictorIndex = decideFirstPredictor();
 		onCardGiverDecided();
-    }
+    };
 
 	$scope.onPlayerCountEntered = function() {
 		$scope.isPlayerCountEntered = true;
 		$scope.maximumRoundCount = wizardCardCount / $scope.playerCount;
-	}
+	};
 
 	$scope.onPredictionMade = function() {
-		++predictionCount;
+		++roundPredictionsMade;
 		$scope.currentPlayer = getNextPlayerIdentifier($scope.currentPlayer);
 
-		if (predictionCount == $scope.playerCount) {
+		if (roundPredictionsMade == $scope.playerCount) {
 			onAllPredictionsMade();
 		}
-	}
+	};
 
 	$scope.onTrickMade = function() {
-		++trickCount;
+		++roundTricksMade;
 		$scope.currentPlayer = getNextPlayerIdentifier($scope.currentPlayer);
 
-		if (trickCount == $scope.playerCount) {
+		if (roundTricksMade >= $scope.playerCount) {
 			onRoundEnd();
 		}
-	}
+	};
 
     function calculateScore() {
-
-
-        for (var indexPlayer = 0; indexPlayer < $scope.playerCount; ++indexPlayer) {
+        for (indexPlayer = 0; indexPlayer < $scope.playerCount; ++indexPlayer) {
             $scope.scores[indexPlayer] = 0;
-            
-            for (var indexRound = 0; indexRound < $scope.roundCounter; ++indexRound) {
-                $scope.scores[indexPlayer] += calculateRoundScore(indexPlayer, indexRound);
+
+            for (indexRound = 0; indexRound < $scope.roundCounter; ++indexRound) {
+                var roundScore = calculateRoundScore(indexPlayer, indexRound);
+                $scope.scores[indexPlayer] += roundScore;
             }
         }
     }
 
     function calculateRoundScore(indexPlayer, indexRound) {
-        var score;
+        var score = 0;
         var prediction = $scope.predictions[indexPlayer][indexRound];
         var trickCount = $scope.tricks[indexPlayer][indexRound];
 
@@ -130,8 +129,9 @@ wizardApp.controller('setupWizardController', function($scope) {
 		$scope.firstPredictorIndex = getNextPlayerIdentifier($scope.firstPredictorIndex);
 		$scope.cardGiverIndex = getNextPlayerIdentifier($scope.cardGiverIndex);
 		$scope.currentPlayer = $scope.firstPredictorIndex;
-		predictionCount = 0;
-		trickCount = 0;
+		calculateScore();
+		roundPredictionsMade = 0;
+		roundTricksMade = 0;
 		++$scope.roundCounter;
 		$scope.arePredictionsDone = false;
 
@@ -174,11 +174,22 @@ wizardApp.controller('setupWizardController', function($scope) {
 	}
 
 	function getIndexOfMaximum(array) {
-		var maximumValue = Math.max(...array);
+		var maximumValue = Math.max(array);
 		return array.indexOf(maximumValue);
 	}
 
 	function startGame() {
 		$scope.currentPlayer = $scope.firstPredictorIndex;
 	}
+
+    $scope.debugToEnd = function () {
+        for (indexPlayer = 0; indexPlayer < $scope.playerCount; ++indexPlayer) {
+            for (indexRound = 0; indexRound < $scope.roundCounter; ++indexRound) {
+                $scope.predictions[indexPlayer][indexRound] = Math.random() * 10;
+                $scope.tricks[indexPlayer][indexRound] = Math.random() * 10;
+            }
+        }
+
+        $scope.roundCounter = $scope.maximumRoundCount - 1;
+    };
 });
