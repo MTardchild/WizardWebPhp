@@ -60,11 +60,10 @@ wizardApp.controller('setupWizardController', function($scope) {
 	$scope.firstPredictorIndex = 0;
 	$scope.currentPlayer = 0;
 
-	$scope.playerNames = new Array;
-	$scope.cardGiverDecider = new Array;
-	$scope.tricks = new Array;
-	$scope.predictions = new Array;
-    $scope.scores = new Array;
+	$scope.playerNames;
+	$scope.tricks;
+	$scope.predictions;
+    $scope.scores;
 
 	var wizardCardCount = 60;
 	var roundPredictionsMade = 0;
@@ -80,6 +79,7 @@ wizardApp.controller('setupWizardController', function($scope) {
 	$scope.onPlayerCountEntered = function() {
 		$scope.isPlayerCountEntered = true;
 		$scope.maximumRoundCount = wizardCardCount / $scope.playerCount;
+		initializeArrays();
 	};
 
 	$scope.onPredictionMade = function() {
@@ -126,18 +126,26 @@ wizardApp.controller('setupWizardController', function($scope) {
     }
 
 	function onRoundEnd() {
-		$scope.firstPredictorIndex = getNextPlayerIdentifier($scope.firstPredictorIndex);
-		$scope.cardGiverIndex = getNextPlayerIdentifier($scope.cardGiverIndex);
-		$scope.currentPlayer = $scope.firstPredictorIndex;
+		getNewPlayerRoles();
 		calculateScore();
-		roundPredictionsMade = 0;
-		roundTricksMade = 0;
+		resetRoundVariables();
 		++$scope.roundCounter;
-		$scope.arePredictionsDone = false;
 
 		if ($scope.roundCounter >= $scope.maximumRoundCount) {
 			$scope.isGameFinished = true;
 		}
+	}
+
+	function getNewPlayerRoles() {
+		$scope.firstPredictorIndex = getNextPlayerIdentifier($scope.firstPredictorIndex);
+		$scope.cardGiverIndex = getNextPlayerIdentifier($scope.cardGiverIndex);
+		$scope.currentPlayer = $scope.firstPredictorIndex;
+	}
+
+	function resetRoundVariables() {
+		roundPredictionsMade = 0;
+		roundTricksMade = 0;
+		$scope.arePredictionsDone = false;
 	}
 
 	function onAllPredictionsMade() {
@@ -180,6 +188,23 @@ wizardApp.controller('setupWizardController', function($scope) {
 
 	function startGame() {
 		$scope.currentPlayer = $scope.firstPredictorIndex;
+	}
+
+	function createTwoDimensionalArray(rows, columns) {
+		var twoDimensionalArray = new Array(rows);
+
+		for (i = 0; i < rows; ++i) {
+			twoDimensionalArray[i] = new Array(columns);
+		}
+
+		return twoDimensionalArray;
+	}
+
+	function initializeArrays() {
+		$scope.playerNames = new Array($scope.playerCount);
+		$scope.scores = new Array($scope.playerCount);
+		$scope.tricks = createTwoDimensionalArray($scope.playerCount, $scope.maximumRoundCount);
+		$scope.predictions = createTwoDimensionalArray($scope.playerCount, $scope.maximumRoundCount);
 	}
 
     $scope.debugToEnd = function () {
