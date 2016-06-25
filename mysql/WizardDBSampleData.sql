@@ -1,0 +1,14 @@
+INSERT INTO player (plr_name) VALUES ("Tom");
+INSERT INTO player (plr_name) VALUES ("Tomsen");
+INSERT INTO player (plr_name) VALUES ("Thomas");
+INSERT INTO player (plr_name) VALUES ("Alex");
+INSERT INTO player (plr_name) VALUES ("Linus");
+INSERT INTO player (plr_name) VALUES ("Marius");
+INSERT INTO player (plr_name) VALUES ("Tobi");
+INSERT INTO player (plr_name) VALUES ("Tobias");
+INSERT INTO player (plr_name) VALUES ("Juli");
+INSERT INTO player (plr_name) VALUES ("Flo");
+INSERT INTO player (plr_name) VALUES ("Gursch");
+INSERT INTO player (plr_name) VALUES ("Anna");
+INSERT INTO player (plr_name) VALUES ("Sebastian");
+INSERT INTO player (plr_name) VALUES ("Basti"); 

@@ -4,7 +4,11 @@
 
 		<div class="form-group">
 			<label><input type="text" class="form-control" placeholder="Player Name" ng-model="playerNames[currentPlayer]" ng-keyup="registerUserKeyRelease($event)" ng-keydown="registerUserKeyPress($event)"></label><br>
-			<div database-matches></div>
+			<!-- <div id="databaseMatches" database-matches></div> -->
+            <span id="playerNameMatchLeft"></span>
+            <span id="playerNameMatchMiddle" class="selected"></span>
+            <span id="playerNameMatchRight"></span>
+
 
             <p>
 				<button type="submit" class="btn btn-primary" ng-click="onPlayerNameEntered()" ng-disable="">Add Player</button>
