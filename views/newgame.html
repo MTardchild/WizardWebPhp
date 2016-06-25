@@ -1,32 +1,18 @@
 <div class="jumbotron text-center">
-	<div ng-hide="isPlayerCountEntered">
-        <h2>Player Count</h2>
-
-        <div class="form-group">
-            <label><input type="number" class="form-control" class="form-control" placeholder="Player Count" ng-model="playerCount"></label>
-
-            <p>
-                <button type="submit" class="btn btn-primary" ng-click="onPlayerCountEntered()">Next</button>
-            </p>
-        </div>
-    </div>
-    <div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == true">
+    <div ng-hide="arePlayerNamesEntered == true">
         <h2>Player Names</h2>
 
 		<div class="form-group">
-            <label><input type="text" class="form-control" placeholder="Player One Name" ng-model="playerNames[0]"></label><br>
-            <label><input type="text" class="form-control" placeholder="Player Two Name" ng-model="playerNames[1]"></label><br>
-            <label ng-hide="playerCount < 3"><input type="text" class="form-control" placeholder="Player Three Name" ng-model="playerNames[2]"></label><br>
-            <label ng-hide="playerCount < 4"><input type="text" class="form-control" placeholder="Player Four Name" ng-model="playerNames[3]"></label><br>
-            <label ng-hide="playerCount < 5"><input type="text" class="form-control" placeholder="Player Five Name" ng-model="playerNames[4]"></label><br>
-            <label ng-hide="playerCount < 6"><input type="text" class="form-control" placeholder="Player Six Name" ng-model="playerNames[5]"></label>
+			<label><input type="text" class="form-control" placeholder="Player Name" ng-model="playerNames[currentPlayer]" ng-keyup="registerUserKeyRelease($event)" ng-keydown="registerUserKeyPress($event)"></label><br>
+			<div database-matches></div>
 
             <p>
-                <button type="submit" class="btn btn-primary" ng-click="onPlayerNamesEntered()">Next</button>
+				<button type="submit" class="btn btn-primary" ng-click="onPlayerNameEntered()" ng-disable="">Add Player</button>
+                <button type="submit" class="btn btn-primary" ng-click="onAllPlayerNamesEntered()" ng-disable="">Start Game</button>
             </p>
         </div>
     </div>
-	<div ng-hide="isPlayerCountEntered == false || arePlayerNamesEntered == false || isCardShufflerDecided == false || isGameFinished == true">
+	<div ng-hide="arePlayerNamesEntered == false || isCardShufflerDecided == false || isGameFinished == true">
 		<div round-view></div>
 	</div>
 	<div ng-show="isGameFinished == true">
