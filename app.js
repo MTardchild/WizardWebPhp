@@ -1,1 +1,2 @@
-var wizardApp = angular.module('wizardApp', []);
+var wizardApp = angular.module('wizardApp', ['rzModule', 'ui.bootstrap']);
+// angular.module('wizardApp', []);

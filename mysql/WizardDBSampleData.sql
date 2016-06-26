@@ -11,4 +11,4 @@ INSERT INTO player (plr_name) VALUES ("Flo");
 INSERT INTO player (plr_name) VALUES ("Gursch");
 INSERT INTO player (plr_name) VALUES ("Anna");
 INSERT INTO player (plr_name) VALUES ("Sebastian");
-INSERT INTO player (plr_name) VALUES ("Basti"); 
+INSERT INTO player (plr_name) VALUES ("Basti");

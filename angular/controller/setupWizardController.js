@@ -30,6 +30,8 @@ angular.module("wizardApp").controller("setupWizardController", ['$scope', '$doc
 			return;
 		}
 
+		refreshSliderBitch();
+
 		getExactPlayerNameMatchesCount($scope.playerNames[$scope.currentPlayer]);
 		++$scope.currentPlayer;
 		setPlayerNameMatchesText(undefined);
