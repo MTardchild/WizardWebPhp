@@ -1,5 +1,3 @@
-angular.module("wizardApp").controller("scoreController", ['$scope', function($scope) {
-    $scope.slider = {
-		value: 5
-	};
-}]);
+angular.module('wizardApp').controller('scoreController', function($scope, $timeout) {
+
+});
