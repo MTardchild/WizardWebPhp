@@ -2,29 +2,33 @@
     <div ng-hide="arePlayerNamesEntered == true">
         <h2>Player Names</h2>
 
-		<div class="form-group">
-			<label><input type="text" class="form-control" placeholder="Player Name" ng-model="playerNames[currentPlayer]" ng-keyup="registerUserKeyRelease($event)" ng-keydown="registerUserKeyPress($event)"></label><br>
-			<!-- <div id="databaseMatches" database-matches></div> -->
-            <span id="playerNameMatchLeft"></span>
-            <span id="playerNameMatchMiddle" class="selected"></span>
-            <span id="playerNameMatchRight"></span>
+        <div class="form-group">
+            <label>
+                <input type="text" class="form-control"
+                       placeholder="Player Name"
+                       ng-model="playerNames[currentPlayer]"
+                       ng-keyup="registerUserKeyRelease($event)"
+                       ng-keydown="registerUserKeyPress($event)">
+            </label>
+            <br>
+            <div id="databaseMatches" database-matches ng-controller="databaseMatchesController"></div>
 
             <p>
-				<button type="submit" class="btn btn-primary" ng-click="onPlayerNameEntered()" ng-disable="">Add Player</button>
+                <button type="submit" class="btn btn-primary" ng-click="onPlayerNameEntered()" ng-disable="">Add Player</button>
                 <button type="submit" class="btn btn-primary" ng-click="onAllPlayerNamesEntered()" ng-disable="">Start Game</button>
             </p>
         </div>
     </div>
-	<div ng-hide="arePlayerNamesEntered == false || isCardShufflerDecided == false || isGameFinished == true">
-		<div round-view></div>
-	</div>
-	<div ng-show="isGameFinished == true">
-		<div game-finished></div>
-	</div>
+    <div ng-hide="arePlayerNamesEntered == false || isGameFinished == true">
+        <div round-view></div>
+    </div>
+    <div ng-show="isGameFinished == true">
+        <div game-finished></div>
+    </div>
 
-	<div class="form-group">
-		<p>
-			<button type="submit" class="btn btn-primary" ng-click="debugToEnd()">DEBUG TO END</button>
-		</p>
-	</div>
+    <div class="form-group">
+        <p>
+            <button type="submit" class="btn btn-primary" ng-click="debugToEnd()">DEBUG TO END</button>
+        </p>
+    </div>
 </div>

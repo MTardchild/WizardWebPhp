@@ -18,7 +18,7 @@ function onNewPlayerAddedToDatabase() {
 function getExactPlayerNameMatchesCount(playerName) {
     var xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onload = onExactPlayerNameMatchesCountRetrieved;
-    xmlHttpRequest.open("GET", "php/isPlayerNameAlreadyExistent.php?playername=" + playerName, true);
+    xmlHttpRequest.open("GET", "php/getExactPlayerNameMatchesCount.php?playername=" + playerName, true);
     xmlHttpRequest.send();
 }
 

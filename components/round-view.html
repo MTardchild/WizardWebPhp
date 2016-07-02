@@ -1,20 +1,36 @@
-<div>Round {{ roundCounter + 1 }}
-    <h2>
-    <div ng-hide="arePredictionsDone">
-        <h4>Card Dealer: {{ playerNames[cardGiverIndex] }}</h4>
-        <h3>Predictions:</h3>
-        <label><h4>{{ playerNames[currentPlayer] }}</h4><input type="number" class="form-control" placeholder="Card Value" ng-model="predictions[roundCounter][currentPlayer]"></label>
+<h2>Round {{ roundCounter + 1 }}</h2>
 
-        <p>
-            <button type="submit" class="btn btn-primary" ng-click="onPredictionMade()">Next</button>
-        </p>
+<p class="playerBannerWrapper">
+    <div class="playerBanner">
+        <a href="#" ng-repeat="playerName in playerNames | limitTo:playerCount" ><span>{{ playerName }}</span></a>
     </div>
-    <div ng-hide="!arePredictionsDone">
-        <h3>Tricks:</h3>
-        <label><h4>{{ playerNames[currentPlayer] }}</h4><input type="number" class="form-control" placeholder="Card Value Player One" ng-model="tricks[roundCounter][currentPlayer]"></label><br>
+</p>
 
-        <p>
-            <button type="submit" class="btn btn-primary" ng-click="onTrickMade()">Next</button>
-        </p>
-    </div>
+<div ng-hide="arePredictionsDone">
+    <h4>Card Dealer: {{ playerNames[cardGiverIndex] }}</h4>
+    <h3>Predictions</h3>
+    <h4>{{ playerNames[currentPlayer] }}</h4>
+</div>
+
+<div ng-hide="!arePredictionsDone">
+    <h3>Tricks</h3>
+    <h4>{{ playerNames[currentPlayer] }}</h4>
+</div>
+
+<hr>
+
+<div class="sliderWrapper">
+    <div id="slider"></div>
+</div>
+
+<div ng-hide="arePredictionsDone">
+    <p>
+        <button type="submit" class="btn btn-primary" ng-click="onPredictionMade()">Confirm</button>
+    </p>
+</div>
+
+<div ng-hide="!arePredictionsDone">
+    <p>
+        <button type="submit" class="btn btn-primary" ng-click="onTrickMade()">Confirm</button>
+    </p>
 </div>

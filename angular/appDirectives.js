@@ -10,6 +10,11 @@ angular.module("wizardApp").directive("roundView", function () {
     return {
         restrict: "A",
         templateUrl: "components/round-view.html",
+        link:    function postLink(scope, iElement, iAttrs){
+            jQuery(document).on('keydown', function(e){
+                scope.$apply(scope.keyPressed(e));
+            });
+        }
     };
 });
 
